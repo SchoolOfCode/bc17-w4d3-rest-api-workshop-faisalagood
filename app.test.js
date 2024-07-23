@@ -2,7 +2,7 @@ import request from "supertest";
 
 import app from "./app.js";
 import astronauts from "./libs/data.js";
-import { createAstronaut, updateAstronautById } from "./models/astronauts.js";
+import { createAstronaut, getAstronautsByName, updateAstronautById } from "./models/astronauts.js";
 
 const astronautToPost = {
   id: "9999",
@@ -122,5 +122,14 @@ describe(LEVELS.two, () => {
     const actual = res.body;
 
     expect(actual).toEqual(expected);
+  });
+});
+
+describe("level_goku", () => {
+	it("app should have a GET request handler that returns an astronaut by name", async () => {
+    const res = await request(app).get("/astronauts?name=Denise");
+    const expected = { success: true, payload: astronauts[4] };
+
+    expect(res.body).toEqual(expected);
   });
 });
